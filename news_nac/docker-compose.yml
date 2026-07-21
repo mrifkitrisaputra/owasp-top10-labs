@@ -1,0 +1,64 @@
+version: '3.8'
+
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      network: host
+    container_name: nac-web
+    ports:
+      - "8070:80"
+    depends_on:
+      db:
+        condition: service_healthy
+      internal-api:
+        condition: service_started
+    environment:
+      - DB_HOST=db
+      - DB_USER=nac
+      - DB_PASS=alex_db_2024_s3cure
+      - DB_NAME=nac_news
+    volumes:
+      - upload-data:/var/www/html/uploads
+    networks:
+      - nac-net
+    restart: unless-stopped
+
+  db:
+    image: mysql:8.0
+    container_name: nac-db
+    environment:
+      - MYSQL_ROOT_PASSWORD=root_s3cure_2024
+      - MYSQL_DATABASE=nac_news
+      - MYSQL_USER=nac
+      - MYSQL_PASSWORD=alex_db_2024_s3cure
+    volumes:
+      - ./mysql/init.sql:/docker-entrypoint-initdb.d/01-init.sql
+      - db-data:/var/lib/mysql
+    networks:
+      - nac-net
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-unac", "-palex_db_2024_s3cure"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+    restart: unless-stopped
+
+  internal-api:
+    build:
+      context: ./internal-service
+      dockerfile: Dockerfile
+    container_name: nac-internal-api
+    networks:
+      - nac-net
+    restart: unless-stopped
+    # No ports exposed - internal only (for SSRF challenge)
+
+volumes:
+  db-data:
+  upload-data:
+
+networks:
+  nac-net:
+    driver: bridge

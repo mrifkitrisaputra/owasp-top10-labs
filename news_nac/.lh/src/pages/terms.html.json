@@ -1,0 +1,18 @@
+{
+    "sourceFile": "src/pages/terms.html",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 0,
+            "patches": [
+                {
+                    "date": 1771315150481,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                }
+            ],
+            "date": 1771315150481,
+            "name": "Commit-0",
+            "content": "<h2>Terms of Service</h2>\r\n<p><em>Last updated: January 1, 2025</em></p>\r\n\r\n<p>By accessing and using Nac News (\"the Service\"), you agree to be bound by these Terms of Service (\"Terms\"). If you do not agree with any part of these terms, please do not use our service.</p>\r\n\r\n<h3>1. User Accounts</h3>\r\n<p>When creating an account, you must provide accurate and complete information. You are responsible for maintaining the confidentiality of your account credentials and for all activities that occur under your account. You must notify us immediately of any unauthorized use.</p>\r\n\r\n<h3>2. Acceptable Use</h3>\r\n<p>You agree not to:</p>\r\n<ul>\r\n    <li>Post content that is defamatory, obscene, threatening, or otherwise objectionable</li>\r\n    <li>Impersonate any person or entity</li>\r\n    <li>Attempt to gain unauthorized access to any portion of the Service</li>\r\n    <li>Use automated means to access the Service without our permission</li>\r\n    <li>Interfere with or disrupt the Service or servers</li>\r\n</ul>\r\n\r\n<h3>3. Content Ownership</h3>\r\n<p>All content published on Nac News, including articles, images, graphics, and multimedia, is protected by copyright and belongs to Nac News or its content creators. You may not reproduce, distribute, or create derivative works without explicit permission.</p>\r\n\r\n<h3>4. User-Generated Content</h3>\r\n<p>By submitting comments or other content, you grant Nac News a non-exclusive, worldwide, royalty-free license to use, display, and distribute such content. You retain ownership of your original content.</p>\r\n\r\n<h3>5. Disclaimer of Warranties</h3>\r\n<p>The Service is provided \"as is\" without warranties of any kind. We do not guarantee that the Service will be uninterrupted, secure, or error-free.</p>\r\n\r\n<h3>6. Limitation of Liability</h3>\r\n<p>Nac News shall not be liable for any indirect, incidental, special, or consequential damages resulting from your use of or inability to use the Service.</p>\r\n\r\n<h3>7. Modifications</h3>\r\n<p>We reserve the right to modify these Terms at any time. Continued use of the Service after changes constitutes acceptance of the new Terms.</p>\r\n\r\n<h3>8. Governing Law</h3>\r\n<p>These Terms shall be governed by the laws of the Commonwealth of Massachusetts, without regard to its conflict of law provisions.</p>\r\n\r\n<h3>9. Contact</h3>\r\n<p>For questions about these Terms, contact us at legal@nac-news.com.</p>\r\n"
+        }
+    ]
+}

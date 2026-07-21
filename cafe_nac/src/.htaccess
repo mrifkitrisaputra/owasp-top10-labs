@@ -1,0 +1,15 @@
+RewriteEngine On
+
+# Remove .php extension
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^([^\.]+)$ $1.php [NC,L]
+
+# Block access to sensitive files
+<FilesMatch "\.(env|bak|sql|log)$">
+    # Note: This only applies to the web root, not subdirectories
+    Require all denied
+</FilesMatch>
+
+# Prevent directory listing (overridden in old-config via Apache config)
+Options -Indexes

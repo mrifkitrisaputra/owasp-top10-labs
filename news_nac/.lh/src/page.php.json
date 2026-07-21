@@ -1,0 +1,18 @@
+{
+    "sourceFile": "src/page.php",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 0,
+            "patches": [
+                {
+                    "date": 1771315150465,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                }
+            ],
+            "date": 1771315150465,
+            "name": "Commit-0",
+            "content": "<?php\r\n/**\r\n * Nac News Portal - Static Page Viewer\r\n * VULNERABILITY: Local File Inclusion (LFI) - No path sanitization (Flag 9)\r\n */\r\nrequire_once __DIR__ . '/includes/functions.php';\r\n\r\n// VULNERABILITY: User input directly used in file path without sanitization\r\n// Allows directory traversal: page.php?page=../../../../etc/passwd\r\n$page = $_GET['page'] ?? 'about.html';\r\n\r\n// Attempt to read the file from pages/ directory\r\n$filePath = __DIR__ . '/pages/' . $page;\r\n$content = @file_get_contents($filePath);\r\n\r\nif ($content === false) {\r\n    $pageTitle = 'Page Not Found';\r\n    require_once __DIR__ . '/includes/header.php';\r\n    echo '<div class=\"container\"><div class=\"error-page\"><h1>404</h1><p>The page you requested could not be found.</p><a href=\"/\" class=\"btn btn-primary\">Back to Home</a></div></div>';\r\n    require_once __DIR__ . '/includes/footer.php';\r\n    exit;\r\n}\r\n\r\n$pageTitle = ucwords(str_replace(['.html', '-', '_'], ['', ' ', ' '], basename($page)));\r\nrequire_once __DIR__ . '/includes/header.php';\r\n?>\r\n\r\n<div class=\"container\">\r\n    <div class=\"static-page\">\r\n        <?= $content ?>\r\n    </div>\r\n</div>\r\n\r\n<?php require_once __DIR__ . '/includes/footer.php'; ?>\r\n"
+        }
+    ]
+}

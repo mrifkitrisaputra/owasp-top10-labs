@@ -1,0 +1,99 @@
+-- =============================================
+-- NAC Cafe Database Backup
+-- Generated: 2023-06-15 03:00:00
+-- Server: MySQL 5.7.33
+-- Database: nac_cafe
+-- =============================================
+
+-- Backup dibuat sebelum migrasi ke sistem baru
+-- Cafe ini sebelumnya bernama: warung_kopi_nusantara
+-- Didirikan tahun 2019 oleh pendiri asli
+
+SET NAMES utf8mb4;
+SET FOREIGN_KEY_CHECKS = 0;
+
+-- -------------------------------------------
+-- Table structure for `site_settings`
+-- -------------------------------------------
+DROP TABLE IF EXISTS `site_settings`;
+CREATE TABLE `site_settings` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `setting_key` varchar(100) DEFAULT NULL,
+  `setting_value` text,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+INSERT INTO `site_settings` VALUES
+(1, 'site_name', 'NAC Cafe'),
+(2, 'original_name', 'warung_kopi_nusantara'),
+(3, 'established_year', '2019'),
+(4, 'owner_email', 'admin@naccafe.id'),
+(5, 'theme', 'coffee-brown'),
+(6, 'maintenance_mode', '0');
+
+-- -------------------------------------------
+-- Table structure for `users` (partial)
+-- -------------------------------------------
+-- Note: Password hashes omitted for security
+DROP TABLE IF EXISTS `users`;
+CREATE TABLE `users` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `username` varchar(50) NOT NULL,
+  `password` varchar(255) NOT NULL,
+  `email` varchar(100) DEFAULT NULL,
+  `full_name` varchar(100) DEFAULT NULL,
+  `role` varchar(20) DEFAULT 'guest',
+  `staff_notes` text,
+  `loyalty_points` int(11) DEFAULT 100,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `username` (`username`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- Only non-sensitive user data included
+INSERT INTO `users` (`id`, `username`, `email`, `full_name`, `role`) VALUES
+(1, 'admin', 'admin@naccafe.id', 'Administrator', 'admin'),
+(2, 'guest', 'guest@naccafe.id', 'Guest User', 'guest');
+
+-- -------------------------------------------
+-- Table structure for `articles`
+-- -------------------------------------------
+CREATE TABLE `articles` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `title` varchar(255) NOT NULL,
+  `content` text NOT NULL,
+  `author_id` int(11) DEFAULT NULL,
+  `category` varchar(50) DEFAULT NULL,
+  `published` tinyint(1) DEFAULT 1,
+  `published_at` timestamp DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- -------------------------------------------
+-- Table structure for `menu_items`
+-- -------------------------------------------
+CREATE TABLE `menu_items` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(100) NOT NULL,
+  `description` text,
+  `price` decimal(10,2) DEFAULT NULL,
+  `category` varchar(50) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- -------------------------------------------
+-- CATATAN PENTING:
+-- -------------------------------------------
+-- Database ini juga memiliki tabel-tabel berikut
+-- yang tidak di-include dalam backup ini:
+--   - comments
+--   - contact_messages
+--   - secret_menu  (berisi resep rahasia)
+--   - loyalty_transactions
+--
+-- Tabel `secret_menu` berisi item menu rahasia
+-- yang tidak ditampilkan di website publik.
+-- Akses ke tabel ini memerlukan query langsung
+-- ke database.
+-- -------------------------------------------
+
+SET FOREIGN_KEY_CHECKS = 1;

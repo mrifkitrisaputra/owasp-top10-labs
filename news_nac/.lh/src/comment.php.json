@@ -1,0 +1,18 @@
+{
+    "sourceFile": "src/comment.php",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 0,
+            "patches": [
+                {
+                    "date": 1771315150465,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                }
+            ],
+            "date": 1771315150465,
+            "name": "Commit-0",
+            "content": "<?php\r\n/**\r\n * Nac News Portal - Comment Handler (AJAX)\r\n */\r\nrequire_once __DIR__ . '/includes/auth.php';\r\nrequire_once __DIR__ . '/includes/functions.php';\r\n\r\nheader('Content-Type: application/json');\r\n\r\nif ($_SERVER['REQUEST_METHOD'] !== 'POST') {\r\n    echo json_encode(['success' => false, 'error' => 'Invalid request method']);\r\n    exit;\r\n}\r\n\r\nif (!isLoggedIn()) {\r\n    echo json_encode(['success' => false, 'error' => 'You must be logged in to comment']);\r\n    exit;\r\n}\r\n\r\n$articleId = intval($_POST['article_id'] ?? 0);\r\n$content = trim($_POST['content'] ?? '');\r\n$user = getCurrentUser();\r\n\r\nif (empty($articleId) || empty($content)) {\r\n    echo json_encode(['success' => false, 'error' => 'Article ID and comment content are required']);\r\n    exit;\r\n}\r\n\r\nif (strlen($content) > 2000) {\r\n    echo json_encode(['success' => false, 'error' => 'Comment is too long (max 2000 characters)']);\r\n    exit;\r\n}\r\n\r\n$conn = getDbConnection();\r\n\r\n// Verify article exists\r\n$stmt = $conn->prepare(\"SELECT id FROM articles WHERE id = ? AND status = 'published'\");\r\n$stmt->bind_param('i', $articleId);\r\n$stmt->execute();\r\nif ($stmt->get_result()->num_rows === 0) {\r\n    echo json_encode(['success' => false, 'error' => 'Article not found']);\r\n    exit;\r\n}\r\n\r\n$status = 'pending';\r\n$stmt = $conn->prepare(\"INSERT INTO comments (article_id, user_id, content, status) VALUES (?, ?, ?, ?)\");\r\n$stmt->bind_param('iiss', $articleId, $user['id'], $content, $status);\r\n\r\nif ($stmt->execute()) {\r\n    echo json_encode(['success' => true, 'message' => 'Comment submitted for moderation']);\r\n} else {\r\n    echo json_encode(['success' => false, 'error' => 'Failed to submit comment']);\r\n}\r\n"
+        }
+    ]
+}

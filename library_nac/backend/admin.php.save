@@ -1,0 +1,163 @@
+                echo json_encode(['success' => true, 'data' => $log]);
+            } else {
+                echo json_encode(['success' => false, 'message' => 'Log not found']);
+            }
+            exit();
+        }
+
+        // List logs - HANYA menampilkan log milik user yang sedang login
+        // Ini membuat FLAG 8 tersembunyi karena log admin lain tidak muncul di list
+        if (isAdmin()) {
+            // Hanya tampilkan logs yang dibuat oleh admin/librarian yang sedang login
+            // JOIN dengan users untuk dapat username
+            $stmt = $conn->prepare("SELECT al.*, u.username 
+                                   FROM admin_logs al 
+                                   LEFT JOIN users u ON al.admin_id = u.id 
+                                   WHERE al.admin_id = ? 
+                                   ORDER BY al.log_date DESC LIMIT 25");
+            $stmt->execute([$_SESSION['user_id']]);
+            $logs = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+            // Hint: Berikan petunjuk bahwa ada logs lain (tanpa menunjukkan isinya)
+            $countStmt = $conn->query("SELECT COUNT(*) as total FROM admin_logs");
+            $totalLogs = $countStmt->fetch(PDO::FETCH_ASSOC)['total'];
+            
+            echo json_encode([
+                'success' => true, 
+                'data' => $logs,
+                'meta' => [
+                    'showing' => count($logs),
+                    'total_in_system' => $totalLogs,
+                    'note' => 'Only showing your activity logs'
+                ]
+            ]);
+        } else {
+            echo json_encode(['success' => false, 'message' => 'Admin access required']);
+        }
+
+    } catch(PDOException $e) {
+        error_log($e->getMessage());
+        echo json_encode(['success' => false, 'message' => 'Error fetching logs']);
+    }
+    exit();
+}
+
+// FLAG 9: Privilege Escalation - Hidden Configuration Access
+// Requires understanding of parameter manipulation and privilege levels
+if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['action']) && $_GET['action'] === 'config') {
+    // Weak check: Only checks if admin, but doesn't check privilege level
+    if (!isAdmin()) {
+        echo json_encode(['success' => false, 'message' => 'Admin access required']);
+        exit();
+    }
+
+    try {
+        $conn = getDBConnection();
+
+        // FLAG 9: Hidden configs dapat diakses dengan parameter show_hidden=true
+        // Seharusnya hanya superadmin yang bisa, tapi kita tidak check privilege level
+        $showHidden = isset($_GET['show_hidden']) && $_GET['show_hidden'] === 'true';
+
+        if ($showHidden) {
+            // Vulnerability: Tidak ada pengecekan apakah user adalah superadmin
+            // Librarian admin bisa akses hidden config padahal seharusnya tidak boleh
+            $stmt = $conn->query("SELECT * FROM system_config");
+        } else {
+            $stmt = $conn->query("SELECT * FROM system_config WHERE is_hidden = 0");
+        }
+
+        $configs = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        echo json_encode(['success' => true, 'data' => $configs]);
+
+    } catch(PDOException $e) {
+        error_log($e->getMessage());
+        echo json_encode(['success' => false, 'message' => 'Error fetching config']);
+    }
+    exit();
+}
+
+// Get archive information (FLAG 6)
+if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['action']) && $_GET['action'] === 'archive') {
+    // Requires authentication
+    if (!checkAuth()) {
+        echo json_encode(['success' => false, 'message' => 'Authentication required']);
+        exit();
+    }
+
+    try {
+        $conn = getDBConnection();
+
+        // FLAG 6: Search archive by code
+        if (isset($_GET['code'])) {
+            $code = $_GET['code'];
+
+            $stmt = $conn->prepare("SELECT a.*, b.title, b.author FROM archive_books a
+                                   LEFT JOIN books b ON a.original_book_id = b.id
+                                   WHERE a.archive_code = ?");
+            $stmt->execute([$code]);
+            $archive = $stmt->fetch(PDO::FETCH_ASSOC);
+
+            if ($archive) {
+                echo json_encode(['success' => true, 'data' => $archive]);
+            } else {
+                echo json_encode(['success' => false, 'message' => 'Archive not found']);
+            }
+            exit();
+        }
+
+        // List all archives
+        $stmt = $conn->query("SELECT a.archive_code, a.storage_location, b.title, b.author
+                             FROM archive_books a
+                             JOIN books b ON a.original_book_id = b.id
+                             ORDER BY a.archived_date DESC");
+        $archives = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        echo json_encode(['success' => true, 'data' => $archives]);
+
+    } catch(PDOException $e) {
+        error_log($e->getMessage());
+        echo json_encode(['success' => false, 'message' => 'Error fetching archives']);
+    }
+    exit();
+}
+
+// Dashboard stats
+if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['action']) && $_GET['action'] === 'stats') {
+    if (!isAdmin()) {
+        echo json_encode(['success' => false, 'message' => 'Admin access required']);
+        exit();
+    }
+
+    try {
+        $conn = getDBConnection();
+
+        $stats = [];
+
+        // Total books
+        $stmt = $conn->query("SELECT COUNT(*) as count FROM books");
+        $stats['total_books'] = $stmt->fetch(PDO::FETCH_ASSOC)['count'];
+
+        // Total users
+        $stmt = $conn->query("SELECT COUNT(*) as count FROM users WHERE is_active = 1");
+        $stats['total_users'] = $stmt->fetch(PDO::FETCH_ASSOC)['count'];
+
+        // Active borrowings
+        $stmt = $conn->query("SELECT COUNT(*) as count FROM borrowings WHERE status = 'borrowed'");
+        $stats['active_borrowings'] = $stmt->fetch(PDO::FETCH_ASSOC)['count'];
+
+        // Overdue books
+        $stmt = $conn->query("SELECT COUNT(*) as count FROM borrowings WHERE status = 'overdue'");
+        $stats['overdue_books'] = $stmt->fetch(PDO::FETCH_ASSOC)['count'];
+
+        echo json_encode(['success' => true, 'data' => $stats]);
+
+    } catch(PDOException $e) {
+        error_log($e->getMessage());
+        echo json_encode(['success' => false, 'message' => 'Error fetching stats']);
+    }
+    exit();
+}
+
+echo json_encode(['success' => false, 'message' => 'Invalid admin request']);
+?>

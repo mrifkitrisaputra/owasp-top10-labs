@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel - Digital Library</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/admin-styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-brand">
+                <i class="fas fa-book"></i>
+                <span>Digital Library <span style="font-weight: 300; opacity: 0.8;">| Admin</span></span>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="admin.html" class="active">Admin Panel</a></li>
+                <li><a href="#" onclick="logout()" class="btn-logout"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="container main-content">
+        <section class="admin-section">
+            
+            <div class="section-header">
+                <h2><i class="fas fa-tachometer-alt"></i> Admin Dashboard</h2>
+                <span class="badge">System Administrator</span>
+            </div>
+
+            <div id="statsCards" class="stats-grid">
+                <div class="stat-card">
+                    <i class="fas fa-book"></i>
+                    <div>
+                        <h3>Total Books</h3>
+                        <p id="totalBooks">--</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <i class="fas fa-users"></i>
+                    <div>
+                        <h3>Total Users</h3>
+                        <p id="totalUsers">--</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <i class="fas fa-book-reader"></i>
+                    <div>
+                        <h3>Active Borrowings</h3>
+                        <p id="activeBorrowings">--</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    <div>
+                        <h3>Overdue Books</h3>
+                        <p id="overdueBooks">--</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="admin-tabs">
+                <button class="tab-button active" onclick="showTab('logs')">
+                    <i class="fas fa-list-ul"></i> Admin Logs
+                </button>
+                <button class="tab-button" onclick="showTab('archive')">
+                    <i class="fas fa-archive"></i> Archive
+                </button>
+                <button class="tab-button" onclick="showTab('config')">
+                    <i class="fas fa-cogs"></i> System Config
+                </button>
+            </div>
+
+            <div id="logsTab" class="tab-content">
+                <div class="tab-header">
+                    <h3><i class="fas fa-history"></i> Admin Activity Logs</h3>
+                </div>
+
+                <div id="logsMetaInfo"></div>
+
+                <div class="search-bar">
+                    <div class="input-group">
+                        <i class="fas fa-fingerprint"></i>
+                        <input type="number" id="logIdSearch" placeholder="Search by Log ID (e.g. 101)..." min="1">
+                    </div>
+                    <button class="btn-primary" onclick="searchLogById()">
+                        <i class="fas fa-search"></i> Search Log
+                    </button>
+                </div>
+                
+                <div id="adminLogs" class="logs-list">
+                    </div>
+            </div>
+
+            <div id="archiveTab" class="tab-content" style="display: none;">
+                <h3><i class="fas fa-box-archive"></i> Archived Books</h3>
+                <div class="search-bar">
+                    <div class="input-group">
+                        <i class="fas fa-barcode"></i>
+                        <input type="text" id="archiveCodeSearch" placeholder="Enter Archive Code...">
+                    </div>
+                    <button class="btn-primary" onclick="searchArchiveByCode()">
+                        <i class="fas fa-search"></i> Search Archive
+                    </button>
+                </div>
+                <div id="archiveList" class="archive-list">
+                    </div>
+            </div>
+
+            <div id="configTab" class="tab-content" style="display: none;">
+                <h3><i class="fas fa-sliders"></i> System Configuration</h3>
+                <div class="config-filter">
+                    <label class="checkbox-container">
+                        <input type="checkbox" id="showHidden" onchange="loadSystemConfig()">
+                        Show hidden system configurations
+                    </label>
+                </div>
+                <div id="configList" class="config-list">
+                    </div>
+            </div>
+
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2024 Digital Library System. Admin Dashboard v1.0</p>
+            <p style="font-size: 0.8rem; opacity: 0.7;">Secure Access Only</p>
+        </div>
+    </footer>
+
+    <script src="js/app.js"></script>
+    <script src="js/admin.js"></script>
+</body>
+</html>
