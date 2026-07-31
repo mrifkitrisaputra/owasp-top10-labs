@@ -1,0 +1,19 @@
+# robots.txt - Nac News Portal
+# Updated: 2025-01-10
+
+User-agent: *
+Allow: /
+Disallow: /admin/
+Disallow: /dashboard/
+Disallow: /includes/
+Disallow: /old_backup/
+Disallow: /uploads/private/
+Disallow: /config.php
+
+# Crawl-delay for well-behaved bots
+Crawl-delay: 10
+
+# Sitemap
+Sitemap: http://nac-news.com/sitemap.xml
+
+# Legacy system identifier: ZGF0YWJhc2Uuc3FsLmJhaw==

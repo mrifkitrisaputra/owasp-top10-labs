@@ -1,0 +1,16 @@
+# NAC Cafe Web Portal
+# Robots.txt - Web Crawlers Directive
+
+User-agent: *
+Disallow: /admin/
+Disallow: /config/
+Disallow: /includes/
+Disallow: /old-config/
+Disallow: /api/internal/
+Disallow: /logs/
+
+# Sitemap
+Sitemap: /sitemap.xml
+
+# Note: Some directories listed above contain legacy configuration files
+# that should have been removed during the migration from the old system.

@@ -1,0 +1,22 @@
+{
+    "sourceFile": "src/robots.txt",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 1,
+            "patches": [
+                {
+                    "date": 1771315150465,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1771319969368,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -14,4 +14,6 @@\n Crawl-delay: 10\r\n \r\n # Sitemap\r\n Sitemap: http://nac-news.com/sitemap.xml\r\n+\r\n+# Legacy system identifier: ZGF0YWJhc2Uuc3FsLmJhaw==\n\\ No newline at end of file\n"
+                }
+            ],
+            "date": 1771315150465,
+            "name": "Commit-0",
+            "content": "# robots.txt - Nac News Portal\r\n# Updated: 2025-01-10\r\n\r\nUser-agent: *\r\nAllow: /\r\nDisallow: /admin/\r\nDisallow: /dashboard/\r\nDisallow: /includes/\r\nDisallow: /old_backup/\r\nDisallow: /uploads/private/\r\nDisallow: /config.php\r\n\r\n# Crawl-delay for well-behaved bots\r\nCrawl-delay: 10\r\n\r\n# Sitemap\r\nSitemap: http://nac-news.com/sitemap.xml\r\n"
+        }
+    ]
+}

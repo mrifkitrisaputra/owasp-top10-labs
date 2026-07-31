@@ -1,0 +1,18 @@
+{
+    "sourceFile": "setup.sh",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 0,
+            "patches": [
+                {
+                    "date": 1771315150464,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                }
+            ],
+            "date": 1771315150464,
+            "name": "Commit-0",
+            "content": "#!/bin/bash\n#\n# Nac News Portal - Quick Setup Script\n# Untuk Ubuntu Server dengan Docker terinstall\n#\n\nset -e\n\necho \"============================================\"\necho \"  Nac News Portal - CTF Setup\"\necho \"============================================\"\necho \"\"\n\n# Check Docker\nif ! command -v docker &> /dev/null; then\n    echo \"[!] Docker tidak ditemukan. Menginstall Docker...\"\n    curl -fsSL https://get.docker.com | sh\n    sudo usermod -aG docker $USER\n    echo \"[+] Docker terinstall. Silakan logout dan login kembali jika perlu.\"\nfi\n\n# Check Docker Compose\nif ! docker compose version &> /dev/null; then\n    echo \"[!] Docker Compose tidak ditemukan.\"\n    echo \"    Install: sudo apt install docker-compose-plugin\"\n    exit 1\nfi\n\necho \"[*] Docker detected: $(docker --version)\"\necho \"[*] Compose detected: $(docker compose version)\"\necho \"\"\n\n# Check port 80\nif ss -tlnp | grep -q ':80 ' 2>/dev/null; then\n    echo \"[!] WARNING: Port 80 sudah digunakan.\"\n    echo \"    Hentikan service yang menggunakan port 80 atau ubah port di docker-compose.yml\"\n    read -p \"    Lanjutkan? (y/n) \" -n 1 -r\n    echo\n    if [[ ! $REPLY =~ ^[Yy]$ ]]; then\n        exit 1\n    fi\nfi\n\n# Build and start\necho \"[*] Building containers...\"\ndocker compose build --no-cache\n\necho \"[*] Starting services...\"\ndocker compose up -d\n\necho \"\"\necho \"[*] Menunggu MySQL ready...\"\nsleep 5\n\n# Wait for healthy\nRETRIES=30\nuntil docker compose exec -T db mysqladmin ping -h localhost -u root --password=nac_root_2024 --silent 2>/dev/null; do\n    RETRIES=$((RETRIES - 1))\n    if [ $RETRIES -le 0 ]; then\n        echo \"[!] MySQL tidak bisa start dalam waktu yang diharapkan.\"\n        echo \"    Cek log: docker compose logs db\"\n        exit 1\n    fi\n    echo \"    Waiting for MySQL... ($RETRIES attempts remaining)\"\n    sleep 2\ndone\n\necho \"[+] MySQL ready!\"\necho \"\"\n\n# Check all containers running\necho \"[*] Container status:\"\ndocker compose ps\necho \"\"\n\n# Get IP\nSERVER_IP=$(hostname -I | awk '{print $1}' 2>/dev/null || echo \"localhost\")\n\necho \"============================================\"\necho \"  Setup Complete!\"\necho \"============================================\"\necho \"\"\necho \"  URL:      http://${SERVER_IP}\"\necho \"  Login:    reader / reader2024\"\necho \"\"\necho \"  Management:\"\necho \"    Logs:    docker compose logs -f\"\necho \"    Stop:    docker compose down\"\necho \"    Reset:   docker compose down -v && docker compose up -d --build\"\necho \"\"\necho \"============================================\"\n"
+        }
+    ]
+}

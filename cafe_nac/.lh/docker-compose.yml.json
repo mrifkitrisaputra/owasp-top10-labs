@@ -1,0 +1,26 @@
+{
+    "sourceFile": "docker-compose.yml",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 2,
+            "patches": [
+                {
+                    "date": 1771344684098,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1771344690425,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -5,9 +5,9 @@\n     build:\r\n       context: .\r\n       dockerfile: Dockerfile\r\n     ports:\r\n-      - \"809:80\"\r\n+      - \"8090:80\"\r\n     depends_on:\r\n       db:\r\n         condition: service_healthy\r\n     environment:\r\n"
+                },
+                {
+                    "date": 1771344701476,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -4,8 +4,9 @@\n   web:\r\n     build:\r\n       context: .\r\n       dockerfile: Dockerfile\r\n+      network: host\r\n     ports:\r\n       - \"8090:80\"\r\n     depends_on:\r\n       db:\r\n"
+                }
+            ],
+            "date": 1771344684098,
+            "name": "Commit-0",
+            "content": "version: '3.8'\r\n\r\nservices:\r\n  web:\r\n    build:\r\n      context: .\r\n      dockerfile: Dockerfile\r\n    ports:\r\n      - \"8060:80\"\r\n    depends_on:\r\n      db:\r\n        condition: service_healthy\r\n    environment:\r\n      - DB_HOST=db\r\n      - DB_USER=nac_user\r\n      - DB_PASS=nac_password\r\n      - DB_NAME=nac_cafe\r\n    volumes:\r\n      - uploads_data:/var/www/html/uploads\r\n    networks:\r\n      - nac_network\r\n    restart: unless-stopped\r\n\r\n  db:\r\n    image: mysql:8.0\r\n    environment:\r\n      - MYSQL_ROOT_PASSWORD=r00tP@ssw0rd_nac2024\r\n      - MYSQL_DATABASE=nac_cafe\r\n      - MYSQL_USER=nac_user\r\n      - MYSQL_PASSWORD=nac_password\r\n    volumes:\r\n      - ./mysql/init.sql:/docker-entrypoint-initdb.d/init.sql\r\n      - db_data:/var/lib/mysql\r\n    networks:\r\n      - nac_network\r\n    healthcheck:\r\n      test: [\"CMD\", \"mysqladmin\", \"ping\", \"-h\", \"localhost\", \"-u\", \"root\", \"-pr00tP@ssw0rd_nac2024\"]\r\n      interval: 5s\r\n      timeout: 5s\r\n      retries: 10\r\n    restart: unless-stopped\r\n\r\n  internal-service:\r\n    build:\r\n      context: ./internal-service\r\n      dockerfile: Dockerfile\r\n    networks:\r\n      - nac_network\r\n    restart: unless-stopped\r\n\r\nvolumes:\r\n  db_data:\r\n  uploads_data:\r\n\r\nnetworks:\r\n  nac_network:\r\n    driver: bridge\r\n"
+        }
+    ]
+}

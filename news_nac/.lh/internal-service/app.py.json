@@ -1,0 +1,18 @@
+{
+    "sourceFile": "internal-service/app.py",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 0,
+            "patches": [
+                {
+                    "date": 1771315150482,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                }
+            ],
+            "date": 1771315150482,
+            "name": "Commit-0",
+            "content": "\"\"\"\r\nNac News Portal - Internal API Service\r\nThis service is only accessible within the Docker network.\r\nIt serves as the target for SSRF exploitation (Flag 5).\r\n\"\"\"\r\nfrom flask import Flask, jsonify, request\r\nimport datetime\r\nimport os\r\n\r\napp = Flask(__name__)\r\n\r\n@app.route('/')\r\ndef index():\r\n    return jsonify({\r\n        \"service\": \"Nac Internal API\",\r\n        \"status\": \"running\",\r\n        \"message\": \"This is an internal service. Not accessible from external networks.\",\r\n        \"endpoints\": [\"/status\", \"/health\", \"/config\", \"/metrics\"]\r\n    })\r\n\r\n@app.route('/status')\r\ndef status():\r\n    \"\"\"Flag 5 is here: v3.7.2-ptolemy\"\"\"\r\n    return jsonify({\r\n        \"service\": \"nac-internal-api\",\r\n        \"version\": \"v3.7.2-ptolemy\",\r\n        \"uptime\": \"running\",\r\n        \"environment\": \"production\",\r\n        \"node\": \"internal-api-01\",\r\n        \"last_restart\": \"2024-01-15T03:22:00Z\"\r\n    })\r\n\r\n@app.route('/health')\r\ndef health():\r\n    return jsonify({\r\n        \"status\": \"healthy\",\r\n        \"database\": \"connected\",\r\n        \"cache\": \"operational\",\r\n        \"queue\": \"processing\",\r\n        \"timestamp\": datetime.datetime.utcnow().isoformat()\r\n    })\r\n\r\n@app.route('/config')\r\ndef config():\r\n    return jsonify({\r\n        \"app_name\": \"Nac News Platform\",\r\n        \"debug_mode\": False,\r\n        \"max_connections\": 100,\r\n        \"cache_ttl\": 3600,\r\n        \"internal_network\": \"172.20.0.0/16\",\r\n        \"services\": {\r\n            \"web\": \"web:80\",\r\n            \"database\": \"db:3306\",\r\n            \"api\": \"internal-api:5000\"\r\n        },\r\n        \"feature_flags\": {\r\n            \"new_editor\": True,\r\n            \"rss_import\": True,\r\n            \"file_upload_v2\": False,\r\n            \"advanced_search\": True\r\n        }\r\n    })\r\n\r\n@app.route('/metrics')\r\ndef metrics():\r\n    return jsonify({\r\n        \"requests_total\": 158420,\r\n        \"requests_per_minute\": 42,\r\n        \"active_sessions\": 23,\r\n        \"memory_usage_mb\": 128,\r\n        \"cpu_percent\": 12.5,\r\n        \"error_rate\": 0.02,\r\n        \"avg_response_time_ms\": 45\r\n    })\r\n\r\n@app.route('/admin/debug')\r\ndef admin_debug():\r\n    \"\"\"Hidden endpoint with extra info\"\"\"\r\n    return jsonify({\r\n        \"debug\": True,\r\n        \"server_info\": {\r\n            \"hostname\": os.uname().nodename if hasattr(os, 'uname') else \"internal-api\",\r\n            \"pid\": os.getpid(),\r\n            \"python_version\": \"3.11\",\r\n            \"flask_debug\": False\r\n        },\r\n        \"database_config\": {\r\n            \"host\": \"db\",\r\n            \"port\": 3306,\r\n            \"database\": \"nac_news\",\r\n            \"user\": \"nac\"\r\n        },\r\n        \"secrets_note\": \"API credentials stored in /var/www/secrets/api_credentials.txt on web server\"\r\n    })\r\n\r\nif __name__ == '__main__':\r\n    app.run(host='0.0.0.0', port=5000, debug=False)\r\n"
+        }
+    ]
+}

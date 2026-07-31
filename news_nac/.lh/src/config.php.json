@@ -1,0 +1,18 @@
+{
+    "sourceFile": "src/config.php",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 0,
+            "patches": [
+                {
+                    "date": 1771315150464,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                }
+            ],
+            "date": 1771315150464,
+            "name": "Commit-0",
+            "content": "<?php\r\n/**\r\n * Nac News Portal - Configuration\r\n * Environment: Production\r\n */\r\n\r\n// Database Configuration\r\ndefine('DB_HOST', getenv('DB_HOST') ?: 'localhost');\r\ndefine('DB_USER', getenv('DB_USER') ?: 'nac');\r\ndefine('DB_PASS', getenv('DB_PASS') ?: 'alex_db_2024_s3cure');\r\ndefine('DB_NAME', getenv('DB_NAME') ?: 'nac_news');\r\n\r\n// Site Configuration\r\ndefine('SITE_NAME', 'Nac News');\r\ndefine('SITE_URL', 'http://' . ($_SERVER['HTTP_HOST'] ?? 'localhost'));\r\ndefine('SITE_DESCRIPTION', 'Your trusted source for technology, science, and world news');\r\n\r\n// Session & Cookie Configuration\r\ndefine('COOKIE_SECRET', 'aLx_s3cr3t_k3y_2024_nEwsP0rtal');\r\ndefine('SESSION_LIFETIME', 3600);\r\ndefine('REMEMBER_ME_LIFETIME', 2592000); // 30 days\r\n\r\n// Upload Configuration\r\ndefine('UPLOAD_DIR', __DIR__ . '/uploads/');\r\ndefine('UPLOAD_URL', SITE_URL . '/uploads/');\r\ndefine('MAX_UPLOAD_SIZE', 5242880); // 5MB\r\n\r\n// Encryption Configuration\r\ndefine('ENCRYPTION_KEY', 'PTOLEMY');\r\ndefine('ENCRYPTION_METHOD', 'internal');\r\n\r\n// Pagination\r\ndefine('POSTS_PER_PAGE', 10);\r\n\r\n// Debug mode (disabled in production)\r\ndefine('DEBUG_MODE', false);\r\n\r\n// Database connection\r\nfunction getDbConnection() {\r\n    static $conn = null;\r\n    if ($conn === null) {\r\n        $conn = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);\r\n        if ($conn->connect_error) {\r\n            if (DEBUG_MODE) {\r\n                die('Database connection failed: ' . $conn->connect_error);\r\n            }\r\n            die('Service temporarily unavailable. Please try again later.');\r\n        }\r\n        $conn->set_charset('utf8mb4');\r\n    }\r\n    return $conn;\r\n}\r\n\r\n// Start session\r\nif (session_status() === PHP_SESSION_NONE) {\r\n    session_start();\r\n}\r\n"
+        }
+    ]
+}

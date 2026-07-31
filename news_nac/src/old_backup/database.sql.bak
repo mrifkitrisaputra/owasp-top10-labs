@@ -1,0 +1,130 @@
+-- =====================================================
+-- Nac News Portal - Database Backup
+-- Generated: 2024-12-15 03:00:00 UTC
+-- Server: nac-db (MySQL 8.0.35)
+-- Database: nac_news
+-- =====================================================
+-- Backup restoration key: nac_restoration_2024
+-- Contact admin@nac-news.com for restoration access
+-- =====================================================
+
+SET NAMES utf8mb4;
+SET FOREIGN_KEY_CHECKS = 0;
+
+-- ---------------------------------------------------
+-- Table structure for `users`
+-- ---------------------------------------------------
+DROP TABLE IF EXISTS `users`;
+CREATE TABLE `users` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `username` varchar(50) NOT NULL,
+  `email` varchar(100) NOT NULL,
+  `password` varchar(255) NOT NULL,
+  `full_name` varchar(100) NOT NULL,
+  `role` enum('subscriber','reporter','editor','admin') DEFAULT 'subscriber',
+  `bio` text,
+  `avatar` varchar(255) DEFAULT NULL,
+  `recovery_email` varchar(100) DEFAULT NULL,
+  `phone` varchar(20) DEFAULT NULL,
+  `is_active` tinyint(1) DEFAULT '1',
+  `last_login` datetime DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `username` (`username`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- ---------------------------------------------------
+-- Table structure for `categories`
+-- ---------------------------------------------------
+DROP TABLE IF EXISTS `categories`;
+CREATE TABLE `categories` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `name` varchar(50) NOT NULL,
+  `slug` varchar(50) NOT NULL,
+  `description` text,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `slug` (`slug`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- ---------------------------------------------------
+-- Table structure for `articles`
+-- ---------------------------------------------------
+DROP TABLE IF EXISTS `articles`;
+CREATE TABLE `articles` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `title` varchar(255) NOT NULL,
+  `slug` varchar(255) NOT NULL,
+  `content` longtext NOT NULL,
+  `excerpt` text,
+  `category_id` int DEFAULT NULL,
+  `author_id` int DEFAULT NULL,
+  `status` enum('draft','published','archived') DEFAULT 'draft',
+  `featured_image` varchar(255) DEFAULT NULL,
+  `is_featured` tinyint(1) DEFAULT '0',
+  `views` int DEFAULT '0',
+  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `published_at` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `slug` (`slug`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- ---------------------------------------------------
+-- Table structure for `internal_memos`
+-- Note: Internal communication system
+-- ---------------------------------------------------
+DROP TABLE IF EXISTS `internal_memos`;
+CREATE TABLE `internal_memos` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `subject` varchar(255) NOT NULL,
+  `content` text NOT NULL,
+  `priority` enum('low','medium','high','critical') DEFAULT 'medium',
+  `department` varchar(50) DEFAULT NULL,
+  `created_by` int DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- ---------------------------------------------------
+-- Table structure for `admin_secrets`
+-- Note: Encrypted sensitive configuration
+-- ---------------------------------------------------
+DROP TABLE IF EXISTS `admin_secrets`;
+CREATE TABLE `admin_secrets` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `key_name` varchar(100) NOT NULL,
+  `encrypted_value` text NOT NULL,
+  `encryption_method` varchar(50) DEFAULT 'internal',
+  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- ---------------------------------------------------
+-- Partial data dump (sanitized for backup)
+-- ---------------------------------------------------
+INSERT INTO `categories` VALUES
+(1,'Technology','technology','Latest technology news'),
+(2,'Science','science','Scientific discoveries and research'),
+(3,'World','world','International news and events'),
+(4,'Business','business','Markets, economy, and corporate news'),
+(5,'Culture','culture','Arts, history, and cultural heritage'),
+(6,'Opinion','opinion','Expert analysis and commentary');
+
+-- NOTE: User data and sensitive tables excluded from this backup
+-- Full backup available at: /backups/full_backup_20241215.sql.gz.enc
+-- Encrypted with restoration key above
+
+-- ---------------------------------------------------
+-- Internal services registry (for Docker network)
+-- ---------------------------------------------------
+-- web         -> nac-web:80       (public)
+-- db          -> nac-db:3306      (internal)
+-- internal-api -> internal-api:5000      (internal, not exposed to public)
+--   Endpoints: /status, /health, /debug/info
+-- ---------------------------------------------------
+
+SET FOREIGN_KEY_CHECKS = 1;
+
+-- =====================================================
+-- End of backup file
+-- =====================================================

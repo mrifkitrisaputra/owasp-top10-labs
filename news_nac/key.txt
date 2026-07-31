@@ -1,0 +1,44 @@
+flag 1: Apa restoration key yang tersimpan di dalam file backup lama pada website ini?
+jawaban: nac_restoration_2024
+hint: Common File, Encode
+
+flag 2: Apa codename proyek top-secret yang tercantum di dalam memo internal pada database?
+jawaban: project_lighthouse
+hint: Sql Injection
+
+flag 3: Apa recovery email dari service account yang tersembunyi di website ini?
+jawaban: sysbot@internal.nac.local
+hint: IDOR, Out of box
+
+flag 4: Apa judul draft yang belum dipublikasikan di akun editor sarah?
+jawaban: The Hidden Archive of Digital Artifacts
+hint: Brute Force
+
+flag 5: Berapa versi (version) dari internal API service yang tidak dapat diakses dari luar?
+jawaban: v3.7.2-ptolemy
+hint: Editor, SSRF
+
+flag 6: Berapa nilai API_SECRET yang ditemukan setelah berhasil melewati upload filter dan membaca file kredensial di server?
+jawaban:
+hint:
+
+flag 7: 
+jawaban:
+hint:
+
+flag 8: 
+jawaban:
+hint:
+
+flag 9: 
+jawaban:
+hint:
+
+flag 10: 
+jawaban:
+hint:
+
+flag 11: 
+jawaban:
+hint:
+

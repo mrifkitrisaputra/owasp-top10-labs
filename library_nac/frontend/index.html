@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Digital Library System</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-brand">
+                <i class="fas fa-book"></i>
+                <span>Digital Library</span>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="index.html" class="active">Home</a></li>
+                <li><a href="#" onclick="showBooks()">Browse Books</a></li>
+                <li><a href="#" onclick="showCategories()">Categories</a></li>
+                <li><a href="#" id="myBorrowingsLink" style="display: none;" onclick="showMyBorrowings()">My Borrowings</a></li>
+                <li><a href="#" id="adminLink" style="display: none;" onclick="window.location.href='admin.html'">Admin Panel</a></li>
+                <li><a href="login.html" id="loginLink">Login</a></li>
+                <li><a href="#" id="logoutLink" style="display: none;" onclick="logout()">Logout</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <h1>Welcome to Our Digital Library</h1>
+            <p>Discover thousands of books at your fingertips</p>
+            
+            <!-- Search Bar -->
+            <div class="search-container">
+                <input type="text" id="searchInput" placeholder="Search by title, author, or ISBN..." onkeypress="if(event.key==='Enter') searchBooks()">
+                <button onclick="searchBooks()"><i class="fas fa-search"></i> Search</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <main class="container main-content">
+        <!-- Welcome Section -->
+        <section id="welcomeSection" class="section">
+            <h2>About Our Library</h2>
+            <div class="info-cards">
+                <div class="info-card">
+                    <i class="fas fa-book-open"></i>
+                    <h3>Vast Collection</h3>
+                    <p>Access to thousands of books across various genres and subjects</p>
+                </div>
+                <div class="info-card">
+                    <i class="fas fa-clock"></i>
+                    <h3>24/7 Available</h3>
+                    <p>Browse and borrow books anytime, anywhere</p>
+                </div>
+                <div class="info-card">
+                    <i class="fas fa-users"></i>
+                    <h3>Community</h3>
+                    <p>Join our reading community and share your thoughts</p>
+                </div>
+            </div>
+            
+            <!-- Featured Books -->
+            <h2 style="margin-top: 40px;">Featured Books</h2>
+            <div id="featuredBooks" class="books-grid"></div>
+        </section>
+
+        <!-- Books Section -->
+        <section id="booksSection" class="section" style="display: none;">
+            <div class="section-header">
+                <h2>Browse Books</h2>
+                <div class="filter-container">
+                    <label>Filter by category:</label>
+                    <select id="categoryFilter" onchange="filterByCategory()">
+                        <option value="">All Categories</option>
+                    </select>
+                </div>
+            </div>
+            <div id="booksList" class="books-grid"></div>
+            <div id="pagination" class="pagination"></div>
+        </section>
+
+        <!-- Categories Section -->
+        <section id="categoriesSection" class="section" style="display: none;">
+            <h2>Book Categories</h2>
+            <div id="categoriesList" class="categories-grid"></div>
+        </section>
+
+        <!-- My Borrowings Section -->
+        <section id="borrowingsSection" class="section" style="display: none;">
+            <h2>My Borrowings</h2>
+            <div id="borrowingsList" class="borrowings-list"></div>
+        </section>
+
+        <!-- Search Results Section -->
+        <section id="searchResultsSection" class="section" style="display: none;">
+            <h2>Search Results</h2>
+            <div id="searchResults" class="books-grid"></div>
+        </section>
+
+        <!-- Book Detail Modal -->
+        <div id="bookModal" class="modal">
+            <div class="modal-content">
+                <span class="close" onclick="closeBookModal()">&times;</span>
+                <div id="bookDetail"></div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; Miquela NAC Lab 2026.</p>
+            <!-- FLAG 2 hint in HTML comment -->
+            <!-- System database: library_ctf -->
+        </div>
+    </footer>
+
+    <script src="js/app.js"></script>
+</body>
+</html>

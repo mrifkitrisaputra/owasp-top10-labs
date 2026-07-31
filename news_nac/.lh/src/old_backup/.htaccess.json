@@ -1,0 +1,18 @@
+{
+    "sourceFile": "src/old_backup/.htaccess",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 0,
+            "patches": [
+                {
+                    "date": 1771316482340,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                }
+            ],
+            "date": 1771316482340,
+            "name": "Commit-0",
+            "content": "# src/old_backup/.htaccess\r\n\r\n<Files \"database.sql.bak\">\r\n    Order allow,deny\r\n    Allow from all\r\n</Files>\r\n\r\n# Options -Indexes"
+        }
+    ]
+}

@@ -1,0 +1,18 @@
+{
+    "sourceFile": "Dockerfile",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 0,
+            "patches": [
+                {
+                    "date": 1771315150464,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                }
+            ],
+            "date": 1771315150464,
+            "name": "Commit-0",
+            "content": "FROM php:8.1-apache\r\n\r\n# Install PHP extensions\r\nRUN docker-php-ext-install mysqli pdo pdo_mysql\r\n\r\n# Install additional tools\r\nRUN apt-get update && apt-get install -y \\\r\n    libxml2-dev \\\r\n    curl \\\r\n    && docker-php-ext-install soap \\\r\n    && apt-get clean \\\r\n    && rm -rf /var/lib/apt/lists/*\r\n\r\n# Enable Apache modules\r\nRUN a2enmod rewrite headers\r\n\r\n# Apache configuration - allow .htaccess overrides\r\nRUN sed -i 's/AllowOverride None/AllowOverride All/g' /etc/apache2/apache2.conf\r\n\r\n# Copy application source\r\nCOPY src/ /var/www/html/\r\n\r\n# Create necessary directories\r\nRUN mkdir -p /var/www/html/uploads \\\r\n    && mkdir -p /var/www/secrets \\\r\n    && mkdir -p /etc/nac \\\r\n    && mkdir -p /var/log/nac \\\r\n    && mkdir -p /opt/nac\r\n\r\n# Copy secret files (flags hidden in filesystem)\r\nCOPY secrets/api_credentials.txt /var/www/secrets/api_credentials.txt\r\nCOPY secrets/service_token /etc/nac/service_token\r\nCOPY secrets/final_directive.txt /opt/nac/final_directive.txt\r\nCOPY secrets/admin_actions.log /var/log/nac/admin_actions.log\r\n\r\n# Set permissions\r\nRUN chown -R www-data:www-data /var/www/html/uploads \\\r\n    && chmod 755 /var/www/html/uploads \\\r\n    && chmod 644 /var/www/secrets/api_credentials.txt \\\r\n    && chmod 644 /etc/nac/service_token \\\r\n    && chmod 644 /opt/nac/final_directive.txt \\\r\n    && chmod 644 /var/log/nac/admin_actions.log\r\n\r\n# Copy seed script and entrypoint\r\nCOPY seed.php /seed.php\r\nCOPY docker-entrypoint.sh /docker-entrypoint.sh\r\nRUN chmod +x /docker-entrypoint.sh\r\n\r\n# PHP configuration for vulnerabilities (intentional misconfigurations)\r\nRUN echo \"display_errors = Off\" > /usr/local/etc/php/conf.d/custom.ini \\\r\n    && echo \"allow_url_fopen = On\" >> /usr/local/etc/php/conf.d/custom.ini \\\r\n    && echo \"allow_url_include = Off\" >> /usr/local/etc/php/conf.d/custom.ini \\\r\n    && echo \"file_uploads = On\" >> /usr/local/etc/php/conf.d/custom.ini \\\r\n    && echo \"upload_max_filesize = 10M\" >> /usr/local/etc/php/conf.d/custom.ini \\\r\n    && echo \"libxml.disable_entity_loader = Off\" >> /usr/local/etc/php/conf.d/custom.ini\r\n\r\nEXPOSE 80\r\n\r\nENTRYPOINT [\"/docker-entrypoint.sh\"]\r\n"
+        }
+    ]
+}

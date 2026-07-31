@@ -1,0 +1,18 @@
+{
+    "sourceFile": "src/pages/privacy.html",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 0,
+            "patches": [
+                {
+                    "date": 1771315150480,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                }
+            ],
+            "date": 1771315150480,
+            "name": "Commit-0",
+            "content": "<h2>Privacy Policy</h2>\r\n<p><em>Last updated: January 1, 2025</em></p>\r\n\r\n<p>Nac News (\"we,\" \"our,\" or \"us\") respects your privacy and is committed to protecting your personal data. This privacy policy explains how we collect, use, and safeguard your information when you visit our website.</p>\r\n\r\n<h3>1. Information We Collect</h3>\r\n<p>We collect information you provide directly to us, such as when you create an account, comment on articles, subscribe to our newsletter, or contact us. This may include:</p>\r\n<ul>\r\n    <li>Name and email address</li>\r\n    <li>Username and password (encrypted)</li>\r\n    <li>Comments and other content you post</li>\r\n    <li>Communication preferences</li>\r\n</ul>\r\n<p>We also automatically collect certain technical information, including your IP address, browser type, operating system, referring URLs, and browsing patterns on our site.</p>\r\n\r\n<h3>2. How We Use Your Information</h3>\r\n<p>We use your information to:</p>\r\n<ul>\r\n    <li>Provide, maintain, and improve our services</li>\r\n    <li>Personalize your experience</li>\r\n    <li>Send newsletters and editorial updates (with your consent)</li>\r\n    <li>Respond to your inquiries and requests</li>\r\n    <li>Monitor and analyze trends, usage, and activities</li>\r\n    <li>Detect, investigate, and prevent security incidents</li>\r\n</ul>\r\n\r\n<h3>3. Information Sharing</h3>\r\n<p>We do not sell your personal information to third parties. We may share your information with service providers who assist us in operating our website, conducting our business, or serving our users.</p>\r\n\r\n<h3>4. Data Security</h3>\r\n<p>We implement appropriate technical and organizational measures to protect your personal data against unauthorized access, alteration, disclosure, or destruction. However, no method of transmission over the Internet is 100% secure.</p>\r\n\r\n<h3>5. Cookies</h3>\r\n<p>We use cookies and similar tracking technologies to track activity on our service and hold certain information. You can instruct your browser to refuse all cookies or to indicate when a cookie is being sent.</p>\r\n\r\n<h3>6. Your Rights</h3>\r\n<p>You have the right to access, correct, or delete your personal data. You may also object to or restrict certain processing of your data. To exercise these rights, please contact us at privacy@nac-news.com.</p>\r\n\r\n<h3>7. Changes to This Policy</h3>\r\n<p>We may update this privacy policy from time to time. We will notify you of any changes by posting the new privacy policy on this page and updating the \"Last updated\" date.</p>\r\n\r\n<h3>8. Contact Us</h3>\r\n<p>If you have questions about this privacy policy, please contact us at:<br>\r\nEmail: privacy@nac-news.com<br>\r\nAddress: 1247 Library Avenue, Suite 400, Boston, MA 02101</p>\r\n"
+        }
+    ]
+}

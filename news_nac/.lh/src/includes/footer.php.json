@@ -1,0 +1,18 @@
+{
+    "sourceFile": "src/includes/footer.php",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 0,
+            "patches": [
+                {
+                    "date": 1771315150480,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                }
+            ],
+            "date": 1771315150480,
+            "name": "Commit-0",
+            "content": "    </main>\r\n\r\n    <!-- Footer -->\r\n    <footer class=\"main-footer\">\r\n        <div class=\"container\">\r\n            <div class=\"footer-grid\">\r\n                <div class=\"footer-col\">\r\n                    <h3><i class=\"fas fa-scroll\"></i> Nac News</h3>\r\n                    <p>Your trusted source for technology, science, and world news. We illuminate truth through rigorous journalism.</p>\r\n                    <div class=\"social-links\">\r\n                        <a href=\"#\" title=\"Twitter\"><i class=\"fab fa-twitter\"></i></a>\r\n                        <a href=\"#\" title=\"Facebook\"><i class=\"fab fa-facebook-f\"></i></a>\r\n                        <a href=\"#\" title=\"LinkedIn\"><i class=\"fab fa-linkedin-in\"></i></a>\r\n                        <a href=\"#\" title=\"RSS Feed\"><i class=\"fas fa-rss\"></i></a>\r\n                    </div>\r\n                </div>\r\n                <div class=\"footer-col\">\r\n                    <h3>Categories</h3>\r\n                    <ul class=\"footer-links\">\r\n                        <?php\r\n                        $footerCats = getCategories();\r\n                        foreach ($footerCats as $cat):\r\n                        ?>\r\n                        <li><a href=\"/category.php?slug=<?= e($cat['slug']) ?>\"><?= e($cat['name']) ?></a></li>\r\n                        <?php endforeach; ?>\r\n                    </ul>\r\n                </div>\r\n                <div class=\"footer-col\">\r\n                    <h3>Quick Links</h3>\r\n                    <ul class=\"footer-links\">\r\n                        <li><a href=\"/page.php?page=about.html\">About Us</a></li>\r\n                        <li><a href=\"/page.php?page=privacy.html\">Privacy Policy</a></li>\r\n                        <li><a href=\"/page.php?page=terms.html\">Terms of Service</a></li>\r\n                        <li><a href=\"/contact.php\">Contact Us</a></li>\r\n                    </ul>\r\n                </div>\r\n                <div class=\"footer-col\">\r\n                    <h3>Newsletter</h3>\r\n                    <p>Stay updated with our latest news delivered to your inbox.</p>\r\n                    <form class=\"newsletter-form\" onsubmit=\"event.preventDefault(); alert('Thank you for subscribing!');\">\r\n                        <input type=\"email\" placeholder=\"Your email address\" required>\r\n                        <button type=\"submit\"><i class=\"fas fa-paper-plane\"></i></button>\r\n                    </form>\r\n                    <div class=\"footer-contact\">\r\n                        <p><i class=\"fas fa-map-marker-alt\"></i> 1247 Library Avenue, Boston</p>\r\n                        <p><i class=\"fas fa-envelope\"></i> contact@nac-news.com</p>\r\n                    </div>\r\n                </div>\r\n            </div>\r\n            <div class=\"footer-bottom\">\r\n                <p>&copy; <?= date('Y') ?> Nac News. All rights reserved.</p>\r\n                <p>Powered by Nac CMS v2.1.4</p>\r\n            </div>\r\n        </div>\r\n    </footer>\r\n\r\n    <script src=\"/assets/js/main.js\"></script>\r\n</body>\r\n</html>\r\n"
+        }
+    ]
+}

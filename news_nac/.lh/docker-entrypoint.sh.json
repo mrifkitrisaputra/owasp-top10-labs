@@ -1,0 +1,18 @@
+{
+    "sourceFile": "docker-entrypoint.sh",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 0,
+            "patches": [
+                {
+                    "date": 1771315150464,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                }
+            ],
+            "date": 1771315150464,
+            "name": "Commit-0",
+            "content": "#!/bin/bash\nset -e\n\necho \"[*] Nac News Portal - Starting up...\"\n\n# Wait for MySQL to be ready\necho \"[*] Waiting for database connection...\"\nMAX_RETRIES=30\nRETRY=0\nuntil php -r \"\n    \\$conn = @new mysqli(getenv('DB_HOST'), getenv('DB_USER'), getenv('DB_PASS'), getenv('DB_NAME'));\n    if (\\$conn->connect_error) { exit(1); }\n    \\$conn->close();\n    exit(0);\n\" 2>/dev/null; do\n    RETRY=$((RETRY + 1))\n    if [ $RETRY -ge $MAX_RETRIES ]; then\n        echo \"[!] Failed to connect to database after $MAX_RETRIES attempts\"\n        exit 1\n    fi\n    echo \"[*] Database not ready, retrying in 3s... ($RETRY/$MAX_RETRIES)\"\n    sleep 3\ndone\n\necho \"[+] Database connected successfully\"\n\n# Run seed script\necho \"[*] Seeding database...\"\nphp /seed.php\n\necho \"[+] Database seeded successfully\"\necho \"[+] Starting Apache web server...\"\n\n# Start Apache in foreground\napache2-foreground\n"
+        }
+    ]
+}
